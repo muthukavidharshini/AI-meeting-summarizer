@@ -1,6 +1,33 @@
 # 🚀 AI Meeting Intelligence System
 
-An advanced AI-powered web application that transforms meeting content into structured insights including summaries, action items, issues, and goals — with multilingual support, audio input, and a modern dashboard UI.
+An advanced AI-powered web application that transforms raw meeting content into structured, actionable insights including summaries, action items, issues, and goals — with multilingual support, audio input, and a modern SaaS-style dashboard.
+
+---
+
+## 🌟 Overview
+
+In today’s fast-paced environment, meetings generate large amounts of unstructured information. This system leverages AI and NLP techniques to convert that information into meaningful insights, improving productivity and decision-making.
+
+---
+
+## 🎯 Problem Statement
+
+* Meetings are often unstructured and hard to track
+* Important decisions and tasks get missed
+* Manual note-taking is inefficient
+* Language barriers create confusion
+
+---
+
+## 💡 Solution
+
+This system automatically:
+
+* Summarizes meeting content
+* Extracts key decisions and tasks
+* Identifies blockers and goals
+* Supports multilingual inputs
+* Provides downloadable reports
 
 ---
 
@@ -8,37 +35,39 @@ An advanced AI-powered web application that transforms meeting content into stru
 
 ### 🧠 Smart Summarization
 
-* Generates clear and concise meeting summaries
-* Converts raw meeting text into structured insights
+* Generates meaningful paragraph summaries
+* Avoids raw sentence output
+* Context-aware extraction
 
 ### 🌐 Language Control
 
-* User can select output language:
+* Supports:
 
   * English
   * Tamil
   * Hindi
-* Output is generated in a **single selected language only** (no mixed language)
+* Ensures **single-language output only**
+* Handles mixed-language input internally
 
 ### 🔑 Keyword Extraction
 
-* Extracts important keywords from meeting content
-* Keywords are always displayed in English
+* Extracts high-frequency and meaningful keywords
+* Helps quick understanding of meeting context
 
 ### 🚀 Action Items Detection
 
-* Automatically identifies tasks from the meeting
-* Displays in clean bullet format
+* Automatically identifies tasks
+* Displays structured bullet points
 
-### ⚠️ Issues & Blockers
+### ⚠️ Issues & Blockers Detection
 
-* Detects problems, delays, and blockers
-* Helps in quick decision-making
+* Highlights risks, delays, and blockers
+* Enables quick resolution
 
-### 🎯 Goal Tracking
+### 🎯 Goal Tracking System
 
-* Identifies goals mentioned in the meeting
-* Displays status:
+* Extracts goals from discussions
+* Displays progress:
 
   * Not Started
   * In Progress
@@ -46,32 +75,62 @@ An advanced AI-powered web application that transforms meeting content into stru
 
 ### 🎤 Audio Input (Speech-to-Text)
 
-* Record voice input using microphone
-* Converts speech into text using Web Speech API
-* Supports real-time transcription
+* Real-time voice recording
+* Converts speech into text instantly
+* Editable transcript before processing
 
 ### 📅 Calendar Integration
 
-* Add action items as calendar events
-* Helps track deadlines efficiently
+* Convert action items into calendar events
+* Helps track deadlines
 
-### 📄 PDF Report Generation
+### 📄 PDF Report Generator
 
-* Download structured meeting report as PDF
-* Includes all sections:
-
-  * Summary
-  * Action Items
-  * Issues
-  * Goals
-  * Keywords
+* Download complete meeting report
+* Structured and printable format
 
 ### 🎨 Modern Dashboard UI
 
-* Clean, professional SaaS-style interface
-* Sidebar navigation
-* Interactive cards
-* Responsive design
+* Clean SaaS-inspired design
+* Responsive layout
+* Interactive cards and navigation
+
+---
+
+## 🏗️ System Architecture
+
+```id="arch"
+User Input (Text / Audio)
+        ↓
+Speech-to-Text Processing (if audio)
+        ↓
+Language Detection & Normalization
+        ↓
+NLP Processing Engine
+   ├── Summarization
+   ├── Keyword Extraction
+   ├── Action Detection
+   ├── Issue Detection
+   └── Goal Tracking
+        ↓
+Structured Output Generator
+        ↓
+Frontend Dashboard Display
+        ↓
+PDF / Calendar Export
+```
+
+---
+
+## 🔌 API Endpoints
+
+| Method | Endpoint      | Description              |
+| ------ | ------------- | ------------------------ |
+| POST   | /summarize    | Generate meeting summary |
+| POST   | /login        | User authentication      |
+| POST   | /register     | Create new user          |
+| GET    | /history      | Fetch past summaries     |
+| POST   | /generate-pdf | Download report          |
 
 ---
 
@@ -81,18 +140,18 @@ An advanced AI-powered web application that transforms meeting content into stru
 
 * React.js
 * React Router
-* CSS / Tailwind (UI styling)
+* Tailwind CSS
 
 ### Backend
 
 * Node.js
 * Express.js
 
-### AI / Processing
+### AI / NLP
 
-* NLP-based summarization
-* Keyword extraction logic
-* Language translation handling
+* Text summarization logic
+* Keyword extraction
+* Language processing
 
 ---
 
@@ -110,7 +169,9 @@ AI-Meeting-Intelligence-System/
 ├── backend/
 │   ├── routes/
 │   ├── controllers/
-│   ├── server.js
+│   ├── middleware/
+│   ├── utils/
+│   └── server.js
 │
 └── README.md
 ```
@@ -119,14 +180,14 @@ AI-Meeting-Intelligence-System/
 
 ## ▶️ How to Run the Project
 
-### 1️⃣ Clone the Repository
+### 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/your-username/AI-Meeting-Intelligence-System.git
 cd AI-Meeting-Intelligence-System
 ```
 
-### 2️⃣ Run Backend
+### 2️⃣ Backend Setup
 
 ```bash
 cd backend
@@ -134,7 +195,7 @@ npm install
 node server.js
 ```
 
-### 3️⃣ Run Frontend
+### 3️⃣ Frontend Setup
 
 ```bash
 cd frontend
@@ -144,29 +205,52 @@ npm start
 
 ---
 
-## 📸 Screenshots
+## 🧪 Sample Input
 
-* Dashboard UI
-* Meeting Input Page
-* Result Page (Summary, Action Items, Issues, Goals)
+```
+Manager: Frontend completed. Backend pending.
+Tester: Login bugs found.
+Manager: Fix all issues by Friday.
+Goal: Complete backend and fix bugs.
+```
+
+---
+
+## ✅ Sample Output
+
+* Summary of meeting
+* Keywords extracted
+* Action items listed
+* Issues highlighted
+* Goals tracked
 
 ---
 
 ## 🎯 Key Highlights
 
-* Clean single-language output (no mixed language)
-* Audio + Text input support
-* Professional dashboard UI
-* Real-time AI insights
+* ✅ Clean single-language output
+* ✅ Real-time audio processing
+* ✅ AI-powered structured insights
+* ✅ Professional dashboard UI
+* ✅ End-to-end workflow automation
 
 ---
 
-## 🚀 Future Enhancements
+## 🔐 Security Features
 
-* Video input summarization
-* Real-time meeting assistant
-* Team collaboration features
-* Cloud deployment
+* JWT-based authentication
+* Protected API routes
+* Secure user session handling
+
+---
+
+## 📈 Future Enhancements
+
+* 🎥 Video meeting summarization
+* 🤝 Team collaboration dashboard
+* ☁️ Cloud deployment (AWS / Vercel)
+* 📊 Analytics dashboard for meetings
+* 🔔 Notifications & reminders
 
 ---
 
@@ -178,4 +262,4 @@ Developed by **Muthukavi Dharshini**
 
 ## ⭐ Support
 
-If you like this project, give it a ⭐ on GitHub!
+If you like this project, give it a ⭐ on GitHub and share it!
