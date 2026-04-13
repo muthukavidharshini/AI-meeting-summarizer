@@ -12,24 +12,31 @@ const { translate } = require('@vitalets/google-translate-api');
 
 const app = express();
 
+/* =========================
+   MIDDLEWARE
+========================= */
 app.use(cors());
 app.use(express.json());
 
 /* =========================
-   🚀 FIX 1: HOME ROUTE
-   ========================= */
+   🚀 HOME ROUTE (IMPORTANT FIX)
+========================= */
 app.get("/", (req, res) => {
   res.send("🚀 AI Meeting Summarizer Backend is Running Successfully!");
 });
 
+/* =========================
+   CONFIG
+========================= */
 const upload = multer({ storage: multer.memoryStorage() });
-
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret_for_meeting_summarizer';
 const PORT = process.env.PORT || 5000;
 
 setInterval(() => { }, 1000 * 60 * 60);
 
-// In-memory users
+/* =========================
+   MOCK USERS DB
+========================= */
 const users = [];
 
 // Seed user
@@ -45,7 +52,7 @@ const users = [];
 
 /* =========================
    AUTH MIDDLEWARE
-   ========================= */
+========================= */
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -63,7 +70,7 @@ function authenticateToken(req, res, next) {
 
 /* =========================
    REGISTER
-   ========================= */
+========================= */
 app.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -84,7 +91,7 @@ app.post('/register', async (req, res) => {
 
 /* =========================
    LOGIN
-   ========================= */
+========================= */
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -104,8 +111,8 @@ app.post('/login', async (req, res) => {
 });
 
 /* =========================
-   SUMMARY FUNCTION
-   ========================= */
+   SIMPLE SUMMARY LOGIC
+========================= */
 function generateSummary(text) {
   const sentences = text.split('.').filter(s => s.trim().length > 5);
 
@@ -123,14 +130,12 @@ function generateSummary(text) {
 }
 
 /* =========================
-   SUMMARIZE
-   ========================= */
+   SUMMARIZE API
+========================= */
 app.post('/summarize', authenticateToken, async (req, res) => {
   const { text } = req.body;
 
-  if (!text) {
-    return res.status(400).json({ error: "Text required" });
-  }
+  if (!text) return res.status(400).json({ error: "Text required" });
 
   const result = generateSummary(text);
   res.json(result);
@@ -138,11 +143,12 @@ app.post('/summarize', authenticateToken, async (req, res) => {
 
 /* =========================
    PDF GENERATION
-   ========================= */
+========================= */
 app.post('/generate-pdf', authenticateToken, (req, res) => {
   const result = req.body;
 
   const doc = new PDFDocument();
+
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader('Content-Disposition', 'attachment; filename=meeting.pdf');
 
@@ -157,12 +163,11 @@ app.post('/generate-pdf', authenticateToken, (req, res) => {
 
 /* =========================
    FILE UPLOAD
-   ========================= */
+========================= */
 app.post('/upload-file', authenticateToken, upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No file" });
 
   const text = req.file.buffer.toString('utf8');
-
   const result = generateSummary(text);
 
   res.json(result);
@@ -170,7 +175,7 @@ app.post('/upload-file', authenticateToken, upload.single('file'), (req, res) =>
 
 /* =========================
    AUDIO UPLOAD (MOCK)
-   ========================= */
+========================= */
 app.post('/upload-audio', authenticateToken, (req, res) => {
   const mockText = "Meeting started. Tasks assigned. Deadline next week.";
 
@@ -180,9 +185,9 @@ app.post('/upload-audio', authenticateToken, (req, res) => {
 });
 
 /* =========================
-   🚀 FIX 2: FRONTEND SERVE (CORRECT)
-   ========================= */
-const buildPath = path.join(__dirname, '../frontend/build');
+   🚀 FRONTEND SERVE FIXED PATH
+========================= */
+const buildPath = path.join(__dirname, '../frontend/frontend-app/build');
 
 app.use(express.static(buildPath));
 
@@ -192,7 +197,7 @@ app.get("*", (req, res) => {
 
 /* =========================
    START SERVER
-   ========================= */
+========================= */
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
